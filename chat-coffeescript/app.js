@@ -1,3 +1,8 @@
+
+/*
+Module dependencies.
+*/
+
 (function() {
   var app, express, io, nib, nicknames, sio, stylus;
 
@@ -9,7 +14,15 @@
 
   sio = require('socket.io');
 
+  /*
+  App.
+  */
+
   app = express.createServer();
+
+  /*
+  App configuration.
+  */
 
   app.configure(function() {
     var compile;
@@ -25,17 +38,29 @@
     return app.set('view engine', 'jade');
   });
 
+  /*
+  App routes.
+  */
+
   app.get('/', function(req, res) {
     return res.render('index', {
       layout: false
     });
   });
 
+  /*
+  App listen.
+  */
+
   app.listen(3000, function() {
     var addr;
     addr = app.address();
     return console.log('   app listening on http://' + addr.address + ':' + addr.port);
   });
+
+  /*
+  Socket.IO server (single process only)
+  */
 
   io = sio.listen(app);
 
