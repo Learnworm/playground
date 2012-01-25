@@ -9,15 +9,15 @@ socket = io.connect()
 socket.on('connect', ->
   $('#chat').addClass('connected'))
 
-socket.on('announcement', (dirty_msg) ->
-  $('#lines').append($('<p>').append($('<em>').text(dirty_msg))))
+socket.on('announcement', (unsafe_msg) ->
+  $('#lines').append($('<p>').append($('<em>').text(unsafe_msg))))
 
-socket.on('nicknames', (dirty_nicknames) ->
+socket.on('nicknames', (unsafe_nicknames) ->
   $('#nicknames').empty().append($('<span>Online: </span>'))
-  $('#nicknames').append($('<b>').text(dirty_nick)) for dirty_nick of dirty_nicknames)
+  $('#nicknames').append($('<b>').text(unsafe_nick)) for unsafe_nick of unsafe_nicknames)
 
-message = (dirty_from, dirty_msg) ->
-  $('#lines').append($('<p>').append($('<b>').text(dirty_from), $('<span>').text(dirty_msg)))
+message = (unsafe_from, unsafe_msg) ->
+  $('#lines').append($('<p>').append($('<b>').text(unsafe_from), $('<span>').text(unsafe_msg)))
 
 socket.on('user message', message)
 
