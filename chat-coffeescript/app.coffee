@@ -24,16 +24,14 @@ app.configure( ->
   app.use(stylus.middleware({ src: __dirname + '/public', compile: compile }))
   app.use(express.static(__dirname + '/public'))
   app.set('views', __dirname)
-  app.set('view engine', 'jade')
-)
+  app.set('view engine', 'jade'))
 
 ###
 App routes.
 ###
 
 app.get('/', (req, res) ->
-  res.render('index', { layout: false })
-)
+  res.render('index', { layout: false }))
 
 ###
 App listen.
@@ -41,8 +39,7 @@ App listen.
 
 app.listen(3000, ->
   addr = app.address();
-  console.log('   app listening on http://' + addr.address + ':' + addr.port)
-)
+  console.log('   app listening on http://' + addr.address + ':' + addr.port))
 
 ###
 Socket.IO server (single process only)
@@ -53,8 +50,7 @@ nicknames = {}
 
 io.sockets.on('connection', (socket) ->
   socket.on('user message', (msg) ->
-    socket.broadcast.emit('user message', socket.nickname, msg)
-  )
+    socket.broadcast.emit('user message', socket.nickname, msg))
 
   socket.on('nickname', (nick, fn) ->
     if nicknames[nick]
@@ -63,14 +59,11 @@ io.sockets.on('connection', (socket) ->
       fn(false)
       nicknames[nick] = socket.nickname = nick
       socket.broadcast.emit('announcement', nick + ' connected')
-      io.sockets.emit('nicknames', nicknames)    
-  )
+      io.sockets.emit('nicknames', nicknames))
 
   socket.on('disconnect', ->
     if not socket.nickname then return
 
     delete nicknames[socket.nickname]
     socket.broadcast.emit('announcement', socket.nickname + ' disconnected')
-    socket.broadcast.emit('nicknames', nicknames)
-  )
-)
+    socket.broadcast.emit('nicknames', nicknames)))
