@@ -9,16 +9,15 @@ socket = io.connect()
 socket.on('connect', ->
   $('#chat').addClass('connected'))
 
-socket.on('announcement', (msg) ->
-  $('#lines').append($('<p>').append($('<em>').text(msg))))
+socket.on('announcement', (dirty_msg) ->
+  $('#lines').append($('<p>').append($('<em>').text(dirty_msg))))
 
-socket.on('nicknames', (nicknames) ->
+socket.on('nicknames', (dirty_nicknames) ->
   $('#nicknames').empty().append($('<span>Online: </span>'))
-  $('#nicknames').append($('<b>').text(nick)) for nick of nicknames)
+  $('#nicknames').append($('<b>').text(dirty_nick)) for dirty_nick of dirty_nicknames)
 
-message = (from, msg) ->
-  $('#lines').append($('<p>').append($('<b>').text(from), msg))
-
+message = (dirty_from, dirty_msg) ->
+  $('#lines').append($('<p>').append($('<b>').text(dirty_from), $('<span>').text(dirty_msg)))
 
 socket.on('user message', message)
 
@@ -29,6 +28,7 @@ socket.on('reconnect', ->
 socket.on('reconnecting', ->
   message('System', 'Attempting to re-connect to the server'))
 
+# TODO: Decide/determine if error strings are untrusted and should be escaped.
 socket.on('error', (e) ->
   message('System', e ? 'A unknown error occurred'))
 

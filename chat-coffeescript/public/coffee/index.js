@@ -13,22 +13,22 @@
     return $('#chat').addClass('connected');
   });
 
-  socket.on('announcement', function(msg) {
-    return $('#lines').append($('<p>').append($('<em>').text(msg)));
+  socket.on('announcement', function(dirty_msg) {
+    return $('#lines').append($('<p>').append($('<em>').text(dirty_msg)));
   });
 
-  socket.on('nicknames', function(nicknames) {
-    var nick, _results;
+  socket.on('nicknames', function(dirty_nicknames) {
+    var dirty_nick, _results;
     $('#nicknames').empty().append($('<span>Online: </span>'));
     _results = [];
-    for (nick in nicknames) {
-      _results.push($('#nicknames').append($('<b>').text(nick)));
+    for (dirty_nick in dirty_nicknames) {
+      _results.push($('#nicknames').append($('<b>').text(dirty_nick)));
     }
     return _results;
   });
 
-  message = function(from, msg) {
-    return $('#lines').append($('<p>').append($('<b>').text(from), msg));
+  message = function(dirty_from, dirty_msg) {
+    return $('#lines').append($('<p>').append($('<b>').text(dirty_from), $('<span>').text(dirty_msg)));
   };
 
   socket.on('user message', message);
